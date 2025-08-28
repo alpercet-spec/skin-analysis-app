@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+interface Answers {
+  [key: string]: string | string[];
+}
+const [answers, setAnswers] = useState<Answers>({});
 import { Camera, ChevronRight, Star, Check, Upload } from 'lucide-react';
 import Image from 'next/image';
 
@@ -219,7 +222,7 @@ const SkinAnalysisApp = () => {
 
   const handleAnswer = (questionId: string, value: string) => {
     if (questions[currentStep].type === 'checkbox') {
-      const currentAnswers = (answers as any)[questionId] || [];
+      const currentAnswers = (answers[questionId] as string[]) || [];
       if (value === 'none') {
         setAnswers({ ...answers, [questionId]: ['none'] });
       } else if (currentAnswers.includes('none')) {
