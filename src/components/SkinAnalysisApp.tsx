@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Camera, ChevronRight, Star, Check, Upload, Award, Target, Zap, Heart } from 'lucide-react';
+import Image from 'next/image';
 
 interface Answers {
   [key: string]: string | string[];
@@ -19,11 +20,11 @@ const SkinAnalysisApp = () => {
       title: 'Yaşınız?',
       type: 'radio',
       options: [
-        { value: '18-25', label: '🔸 18-25' },
-        { value: '26-35', label: '🔸 26-35' },
-        { value: '36-45', label: '🔸 36-45' },
-        { value: '46-55', label: '🔸 46-55' },
-        { value: '55+', label: '🔸 55+' }
+        { value: '18-25', label: '📸 18-25' },
+        { value: '26-35', label: '📸 26-35' },
+        { value: '36-45', label: '📸 36-45' },
+        { value: '46-55', label: '📸 46-55' },
+        { value: '55+', label: '📸 55+' }
       ]
     },
     {
@@ -40,11 +41,11 @@ const SkinAnalysisApp = () => {
       title: 'Cilt tipinizi nasıl tanımlarsınız?',
       type: 'radio',
       options: [
-        { value: 'dry', label: '🏜️ Kuru – Cildim sık sık gergin hissediliyor, pul pul dökülme veya çatlama oluyor.' },
-        { value: 'oily', label: '💧 Yağlı – Cildim gün içinde parlaklaşıyor, özellikle alın, burun ve çenemde yağlanma oluyor, gözeneklerim belirgin.' },
-        { value: 'combination', label: '🌓 Karma – T bölgem (alın, burun, çene) yağlanıyor ama yanaklarım daha kuru veya normal.' },
-        { value: 'sensitive', label: '🌸 Hassas – Cildim kolayca kızarıyor, tahriş oluyor ya da ürünlere hızlı tepki veriyor.' },
-        { value: 'normal', label: '✨ Normal – Ne aşırı yağlanma ne de kuruluk hissediyorum, genel olarak dengeli ve rahat.' }
+        { value: 'dry', label: '🜏️ Kuru — Cildim sık sık gergin hissediliyor, pul pul dökülme veya çatlama oluyor.' },
+        { value: 'oily', label: '💧 Yağlı — Cildim gün içinde parlaklaşıyor, özellikle alın, burun ve çenemde yağlanma oluyor, gözeneklerim belirgin.' },
+        { value: 'combination', label: '🌓 Karma — T bölgem (alın, burun, çene) yağlanıyor ama yanaklarım daha kuru veya normal.' },
+        { value: 'sensitive', label: '🌸 Hassas — Cildim kolayca kızarıyor, tahriş oluyor ya da ürünlere hızlı tepki veriyor.' },
+        { value: 'normal', label: '✨ Normal — Ne aşırı yağlanma ne de kuruluk hissediyorum, genel olarak dengeli ve rahat.' }
       ]
     },
     {
@@ -53,9 +54,9 @@ const SkinAnalysisApp = () => {
       type: 'checkbox',
       options: [
         { value: 'acne', label: '🔴 Sık sık sivilce ya da akne çıkıyor' },
-        { value: 'wrinkles', label: '⏛ Kırışıklıklarım var, yaşlanma belirtileri belirginleşiyor' },
+        { value: 'wrinkles', label: '⛛ Kırışıklıklarım var, yaşlanma belirtileri belirginleşiyor' },
         { value: 'dark_spots', label: '☀️ Cildimde lekeler ve renk düzensizlikleri var' },
-        { value: 'dryness', label: '🏜️ Cildim kuruyor, gerginlik hissediyorum' },
+        { value: 'dryness', label: '🜏️ Cildim kuruyor, gerginlik hissediyorum' },
         { value: 'pores', label: '🔍 Gözeneklerim geniş ve belirgin görünüyor' },
         { value: 'dullness', label: '😴 Cildim mat, yeterince canlı ve parlak değil' },
         { value: 'redness', label: '🌹 Cildim kolayca kızarıyor ve hassas' },
@@ -83,7 +84,7 @@ const SkinAnalysisApp = () => {
       type: 'checkbox',
       options: [
         { value: 'fragrance', label: '🌺 Parfüm ve koku' },
-        { value: 'alcohol', label: '🍷 Alkol içeren ürünler' },
+        { value: 'alcohol', label: '🷂 Alkol içeren ürünler' },
         { value: 'salicylic_acid', label: '💊 Salisilik asit' },
         { value: 'retinol', label: '🧴 Retinol/Retinoid' },
         { value: 'aha_bha', label: '🧪 AHA/BHA asitler' },
@@ -146,7 +147,7 @@ const SkinAnalysisApp = () => {
       type: 'radio',
       options: [
         { value: 'dry_hot', label: '🌵 Kuru ve sıcak' },
-        { value: 'humid_hot', label: '🏝️ Nemli ve sıcak' },
+        { value: 'humid_hot', label: '🏖️ Nemli ve sıcak' },
         { value: 'moderate', label: '🌤️ Ilıman' },
         { value: 'cold_dry', label: '❄️ Soğuk ve kuru' },
         { value: 'cold_humid', label: '🌧️ Soğuk ve nemli' },
@@ -175,13 +176,13 @@ const SkinAnalysisApp = () => {
         { value: 'mesotherapy', label: '🧬 Mezoterapiler' },
         { value: 'bbl', label: '🌟 BBL tedavileri' },
         { value: 'collagen', label: '🧪 Kolajen aşıları' },
-        { value: 'radiofrequency', label: '📡 Radrofrekans tedavileri' },
+        { value: 'radiofrequency', label: '📡 Radyofrekans tedavileri' },
         { value: 'skin_laser', label: '⚡ Cilt lazer tedavileri' },
         { value: 'professional_care', label: '✨ Profesyonel cilt bakımı' },
         { value: 'chemical_peel', label: '🧪 Kimyasal peeling' },
         { value: 'acne_medication', label: '💊 Akne ilaçları' },
         { value: 'home_devices', label: '🏠 Evde kullanım cihazları' },
-        { value: 'prescription_creams', label: '📝 Reçeteli kremler' },
+        { value: 'prescription_creams', label: '📋 Reçeteli kremler' },
         { value: 'none', label: '❌ Hiçbirini denemedim' }
       ]
     },
@@ -253,11 +254,11 @@ const SkinAnalysisApp = () => {
     },
     {
       id: 'past_problems',
-      title: 'Geçmişte cilt ile ilgili sorun yaşadınız mı?',
+      title: 'Geçmiş te cilt ile ilgili sorun yaşadınız mı?',
       type: 'checkbox',
       options: [
         { value: 'chronic_irritation', label: '🔥 Kronik kaşıntı/kızarıklık problemi' },
-        { value: 'dryness_problem', label: '🏜️ Pullanma ve kuruluk sorunu' },
+        { value: 'dryness_problem', label: '🜏️ Pullanma ve kuruluk sorunu' },
         { value: 'recurring_sensitivity', label: '⚠️ Sürekli tekrarlayan cilt hassasiyeti' },
         { value: 'no_serious_problems', label: '✅ Ciddi bir cilt sorunu yaşamadım' },
         { value: 'prefer_not_answer_past', label: '🤐 Bu soruyu cevaplamak istemiyorum' }
@@ -269,7 +270,6 @@ const SkinAnalysisApp = () => {
     const skinType = answers.skinType as string;
     const concerns = answers.concerns as string[] || [];
     const age = answers.age as string;
-    const budget = answers.budget as string;
 
     // Cilt tipine göre öneriler
     const recommendations = {
@@ -424,7 +424,7 @@ const SkinAnalysisApp = () => {
           </div>
 
           <button className="w-full bg-gradient-to-r from-pink-500 to-purple-600 text-white py-4 px-6 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200 mb-4">
-            Premium'a Başla
+            Premium&apos;a Başla
           </button>
 
           <button 
@@ -499,7 +499,7 @@ const SkinAnalysisApp = () => {
 
             {/* Önerilen Ürünler */}
             <div className="bg-gradient-to-r from-orange-50 to-red-50 p-4 rounded-xl">
-              <h3 className="font-semibold text-orange-800 mb-2">🛍️ Önerilen Ürünler:</h3>
+              <h3 className="font-semibold text-orange-800 mb-2">🛒 Önerilen Ürünler:</h3>
               <ul className="space-y-1">
                 {results.recommendations.map((product, index) => (
                   <li key={index} className="text-sm text-orange-700">
@@ -602,9 +602,11 @@ const SkinAnalysisApp = () => {
           <div className="mb-8">
             {uploadedPhoto ? (
               <div className="relative">
-                <img
+                <Image
                   src={uploadedPhoto}
                   alt="Yüklenen fotoğraf"
+                  width={500}
+                  height={256}
                   className="w-full h-64 object-cover rounded-2xl shadow-lg"
                 />
                 <button
@@ -676,7 +678,7 @@ const SkinAnalysisApp = () => {
               <div className="text-sm text-green-700">
                 <p>• Yaş: {answers.age as string || 'Belirtilmedi'}</p>
                 {answers.gender && <p>• Cinsiyet: {questions[1].options.find(o => o.value === answers.gender)?.label || 'Belirtilmedi'}</p>}
-                {answers.skinType && <p>• Cilt Tipi: {questions[2].options.find(o => o.value === answers.skinType)?.label.split(' - ')[0] || 'Belirtilmedi'}</p>}
+                {answers.skinType && <p>• Cilt Tipi: {questions[2].options.find(o => o.value === answers.skinType)?.label.split(' — ')[0] || 'Belirtilmedi'}</p>}
                 <p>• Bütçe: {answers.budget as string || 'Belirtilmedi'} TL</p>
                 <p>• Toplam {Object.keys(answers).length} soru yanıtlandı</p>
               </div>
