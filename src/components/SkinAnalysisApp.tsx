@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Camera, ChevronRight, Star, Check, Upload } from 'lucide-react';
-import Image from 'next/image';
+import { Camera, ChevronRight, Star, Check, Upload, Award, Target, Zap, Heart } from 'lucide-react';
 
 interface Answers {
   [key: string]: string | string[];
@@ -10,29 +9,30 @@ const SkinAnalysisApp = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<Answers>({});
   const [uploadedPhoto, setUploadedPhoto] = useState<string | null>(null);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [currentAnalysisStep, setCurrentAnalysisStep] = useState(0);
+  const [analysisProgress, setAnalysisProgress] = useState([0, 0, 0]);
 
   const questions = [
     {
       id: 'age',
-      title: 'Yaşınız kaç?',
+      title: 'Yaşınız?',
       type: 'radio',
       options: [
-        { value: '18-25', label: '18-25' },
-        { value: '26-35', label: '26-35' },
-        { value: '36-45', label: '36-45' },
-        { value: '46-55', label: '46-55' },
-        { value: '55+', label: '55+' }
+        { value: '18-25', label: '🔸 18-25' },
+        { value: '26-35', label: '🔸 26-35' },
+        { value: '36-45', label: '🔸 36-45' },
+        { value: '46-55', label: '🔸 46-55' },
+        { value: '55+', label: '🔸 55+' }
       ]
     },
     {
       id: 'gender',
-      title: 'Cinsiyetiniz nedir?',
+      title: 'Cinsiyetiniz?',
       type: 'radio',
       options: [
         { value: 'female', label: '👩 Kadın' },
-        { value: 'male', label: '👨 Erkek' },
-        { value: 'other', label: '⚥ Diğer' },
-        { value: 'prefer_not_to_say', label: '🤐 Belirtmek istemiyorum' }
+        { value: 'male', label: '👨 Erkek' }
       ]
     },
     {
@@ -40,41 +40,41 @@ const SkinAnalysisApp = () => {
       title: 'Cilt tipinizi nasıl tanımlarsınız?',
       type: 'radio',
       options: [
-        { value: 'dry', label: '🏜️ Kuru - Cildin gergin hissettiği, pullanma olduğu' },
-        { value: 'oily', label: '💧 Yağlı - Parlayan, gözeneklerin açık olduğu' },
-        { value: 'combination', label: '🌓 Karma - T bölgede yağlı, yanaklarda kuru' },
-        { value: 'sensitive', label: '🌸 Hassas - Kolay kızaran, tahriş olan' },
-        { value: 'normal', label: '✨ Normal - Dengeli, sorunsuz' }
+        { value: 'dry', label: '🏜️ Kuru – Cildim sık sık gergin hissediliyor, pul pul dökülme veya çatlama oluyor.' },
+        { value: 'oily', label: '💧 Yağlı – Cildim gün içinde parlaklaşıyor, özellikle alın, burun ve çenemde yağlanma oluyor, gözeneklerim belirgin.' },
+        { value: 'combination', label: '🌓 Karma – T bölgem (alın, burun, çene) yağlanıyor ama yanaklarım daha kuru veya normal.' },
+        { value: 'sensitive', label: '🌸 Hassas – Cildim kolayca kızarıyor, tahriş oluyor ya da ürünlere hızlı tepki veriyor.' },
+        { value: 'normal', label: '✨ Normal – Ne aşırı yağlanma ne de kuruluk hissediyorum, genel olarak dengeli ve rahat.' }
       ]
     },
     {
       id: 'concerns',
-      title: 'En çok hangi cilt sorununuz var?',
+      title: 'En çok hangi cilt sorunlarını yaşıyorsunuz?',
       type: 'checkbox',
       options: [
-        { value: 'acne', label: '🔴 Akne ve sivilce' },
-        { value: 'wrinkles', label: '⌛ Kırışıklık ve yaşlanma belirtileri' },
-        { value: 'dark_spots', label: '☀️ Leke ve renk eşitsizliği' },
-        { value: 'dryness', label: '🏜️ Kuruluk ve sıkılık' },
-        { value: 'pores', label: '🔍 Büyük gözenekler' },
-        { value: 'dullness', label: '😴 Cansızlık ve parlaklık eksikliği' },
-        { value: 'redness', label: '🌹 Kızarıklık ve hassasiyet' },
-        { value: 'blackheads', label: '⚫ Siyah nokta ve komedo' },
-        { value: 'uneven_texture', label: '🏔️ Pürüzlü doku' },
-        { value: 'under_eye', label: '👁️ Göz altı torba ve morluk' }
+        { value: 'acne', label: '🔴 Sık sık sivilce ya da akne çıkıyor' },
+        { value: 'wrinkles', label: '⏛ Kırışıklıklarım var, yaşlanma belirtileri belirginleşiyor' },
+        { value: 'dark_spots', label: '☀️ Cildimde lekeler ve renk düzensizlikleri var' },
+        { value: 'dryness', label: '🏜️ Cildim kuruyor, gerginlik hissediyorum' },
+        { value: 'pores', label: '🔍 Gözeneklerim geniş ve belirgin görünüyor' },
+        { value: 'dullness', label: '😴 Cildim mat, yeterince canlı ve parlak değil' },
+        { value: 'redness', label: '🌹 Cildim kolayca kızarıyor ve hassas' },
+        { value: 'blackheads', label: '⚫ Siyah noktalarım var' },
+        { value: 'uneven_texture', label: '🏔️ Cilt dokum pürüzlü, yeterince pürüzsüz değil' },
+        { value: 'under_eye', label: '👁️ Göz altlarımda morluk ve torbalanma var' }
       ]
     },
     {
       id: 'skinTone',
-      title: 'Cilt tonunuz hangisi?',
+      title: 'Cilt tonunuz hangisine daha yakın?',
       type: 'radio',
       options: [
-        { value: 'very_light', label: '🤍 Çok açık - Kolayca güneş yanığı oluyor' },
-        { value: 'light', label: '🏻 Açık - Bazen güneş yanığı oluyor' },
-        { value: 'medium_light', label: '🏼 Orta açık - Hafif bronzlaşıyor' },
-        { value: 'medium', label: '🏽 Orta - Kolay bronzlaşıyor' },
-        { value: 'medium_dark', label: '🏾 Orta koyu - Çok kolay bronzlaşıyor' },
-        { value: 'dark', label: '🏿 Koyu - Hiç güneş yanığı olmuyor' }
+        { value: 'very_light', label: '🤍 Cildim çok açık, güneşte hemen kızarırım.' },
+        { value: 'light', label: '🏻 Cildim açık, bazen yanarım ama hafif de bronzlaşırım.' },
+        { value: 'medium_light', label: '🏼 Cildim buğday, önce biraz kızarırım sonra bronzlaşırım.' },
+        { value: 'medium', label: '🏽 Cildim esmer, kolayca bronzlaşırım, nadiren yanarım.' },
+        { value: 'medium_dark', label: '🏾 Cildim koyuya yakın, hemen bronzlaşırım, yanmam.' },
+        { value: 'dark', label: '🏿 Cildim koyu tenli, güneş yanığı hiç olmuyor.' }
       ]
     },
     {
@@ -95,7 +95,7 @@ const SkinAnalysisApp = () => {
     },
     {
       id: 'routine',
-      title: 'Şu anda hangi ürünleri kullanıyorsunuz?',
+      title: 'Şu anda hangi ürünleri düzenli olarak kullanıyorsunuz?',
       type: 'checkbox',
       options: [
         { value: 'cleanser', label: '🧼 Temizleyici' },
@@ -113,7 +113,7 @@ const SkinAnalysisApp = () => {
     },
     {
       id: 'frequency',
-      title: 'Ne sıklıkla cilt bakımı yapıyorsunuz?',
+      title: 'Evde ne sıklıkla cilt bakımı yapıyorsunuz?',
       type: 'radio',
       options: [
         { value: 'twice_daily', label: '🌅🌙 Günde 2 kez (sabah-akşam)' },
@@ -136,7 +136,8 @@ const SkinAnalysisApp = () => {
         { value: 'good_sleep', label: '😴 Düzenli uyku alıyorum' },
         { value: 'poor_sleep', label: '😵‍💫 Uyku düzenim bozuk' },
         { value: 'healthy_diet', label: '🥗 Sağlıklı besleniyorum' },
-        { value: 'lots_water', label: '💧 Çok su içiyorum' }
+        { value: 'lots_water', label: '💧 Çok su içiyorum' },
+        { value: 'little_water', label: '🚱 Çok az su içiyorum' }
       ]
     },
     {
@@ -157,7 +158,7 @@ const SkinAnalysisApp = () => {
       title: 'Makyaj kullanım sıklığınız?',
       type: 'radio',
       options: [
-        { value: 'daily', label: '💄 Her gün kullanıyorum' },
+        { value: 'daily', label: '💄 Her gün makyaj yapıyorum' },
         { value: 'work_days', label: '👔 Sadece iş günleri' },
         { value: 'special_occasions', label: '🎉 Özel günlerde' },
         { value: 'rarely', label: '🤷‍♀️ Çok nadir' },
@@ -169,12 +170,16 @@ const SkinAnalysisApp = () => {
       title: 'Daha önce hangi tedavileri denediniz?',
       type: 'checkbox',
       options: [
-        { value: 'dermatologist', label: '👨‍⚕️ Dermatolog muayenesi' },
+        { value: 'botox', label: '💉 Botoks' },
+        { value: 'filler', label: '💊 Dolgu' },
+        { value: 'mesotherapy', label: '🧬 Mezoterapiler' },
+        { value: 'bbl', label: '🌟 BBL tedavileri' },
+        { value: 'collagen', label: '🧪 Kolajen aşıları' },
+        { value: 'radiofrequency', label: '📡 Radrofrekans tedavileri' },
+        { value: 'skin_laser', label: '⚡ Cilt lazer tedavileri' },
+        { value: 'professional_care', label: '✨ Profesyonel cilt bakımı' },
         { value: 'chemical_peel', label: '🧪 Kimyasal peeling' },
-        { value: 'microdermabrasion', label: '💎 Mikrodermaabrazyon' },
-        { value: 'laser_treatment', label: '⚡ Lazer tedavisi' },
         { value: 'acne_medication', label: '💊 Akne ilaçları' },
-        { value: 'facial_treatments', label: '✨ Profesyonel yüz bakımları' },
         { value: 'home_devices', label: '🏠 Evde kullanım cihazları' },
         { value: 'prescription_creams', label: '📝 Reçeteli kremler' },
         { value: 'none', label: '❌ Hiçbirini denemedim' }
@@ -182,7 +187,7 @@ const SkinAnalysisApp = () => {
     },
     {
       id: 'goals',
-      title: 'Cilt bakımından beklentiniz nedir?',
+      title: 'Cilt bakım ve tedavilerinden beklentiniz nedir?',
       type: 'checkbox',
       options: [
         { value: 'clear_acne', label: '🎯 Akne/sivilcelerden kurtulmak' },
@@ -210,16 +215,105 @@ const SkinAnalysisApp = () => {
     },
     {
       id: 'budget',
-      title: 'Aylık cilt bakım bütçeniz ne kadar?',
+      title: 'Evde cilt bakımı ürünleri için ayırdığınız aylık bütçe nedir?',
       type: 'radio',
       options: [
-        { value: '0-250', label: '💰 0-250 TL' },
-        { value: '250-500', label: '💰💰 250-500 TL' },
-        { value: '500-1000', label: '💰💰💰 500-1000 TL' },
-        { value: '1000+', label: '💰💰💰💰 1000+ TL' }
+        { value: '0-1000', label: '💰 0-1000 TL' },
+        { value: '1000-2500', label: '💰💰 1000-2500 TL' },
+        { value: '2500-5000', label: '💰💰💰 2500-5000 TL' },
+        { value: '5000+', label: '💰💰💰💰 5000+ TL' }
+      ]
+    },
+    {
+      id: 'health_factors',
+      title: 'Cilt sağlığınızı etkileyebilecek faktörler var mı?',
+      type: 'checkbox',
+      options: [
+        { value: 'hormone_treatment', label: '🩺 Hormon tedavisi alıyorum' },
+        { value: 'antibiotics', label: '💊 Antibiyotik kullanıyorum' },
+        { value: 'corticosteroids', label: '💉 Kortikosteroid (prednizon vb.) kullanıyorum' },
+        { value: 'acne_treatment', label: '🩹 Akne tedavisi görüyorum' },
+        { value: 'blood_thinners', label: '🩸 Kan sulandırıcı kullanıyorum' },
+        { value: 'thyroid_meds', label: '🦋 Tiroid ilaçlarım var' },
+        { value: 'antidepressants', label: '🧠 Antidepresan kullanıyorum' },
+        { value: 'none_health', label: '❌ Yukarıdakilerin hiçbiri' }
+      ]
+    },
+    {
+      id: 'hormonal_changes',
+      title: 'Hormonal değişiklikler cilt görünümünü etkiliyor mu?',
+      type: 'checkbox',
+      options: [
+        { value: 'irregular_period', label: '🩸 Düzensiz regl döngüm var' },
+        { value: 'pregnancy', label: '🤰 Hamilelik/emzirme dönemindeyim' },
+        { value: 'menopause', label: '🌸 Menopoz dönemindeyim' },
+        { value: 'no_hormonal_changes', label: '🆗 Hormonal değişiklikler fark etmiyorum' },
+        { value: 'prefer_not_answer_hormonal', label: '🤐 Bu soruyu cevaplamak istemiyorum' }
+      ]
+    },
+    {
+      id: 'past_problems',
+      title: 'Geçmişte cilt ile ilgili sorun yaşadınız mı?',
+      type: 'checkbox',
+      options: [
+        { value: 'chronic_irritation', label: '🔥 Kronik kaşıntı/kızarıklık problemi' },
+        { value: 'dryness_problem', label: '🏜️ Pullanma ve kuruluk sorunu' },
+        { value: 'recurring_sensitivity', label: '⚠️ Sürekli tekrarlayan cilt hassasiyeti' },
+        { value: 'no_serious_problems', label: '✅ Ciddi bir cilt sorunu yaşamadım' },
+        { value: 'prefer_not_answer_past', label: '🤐 Bu soruyu cevaplamak istemiyorum' }
       ]
     }
   ];
+
+  const generateAnalysisResults = () => {
+    const skinType = answers.skinType as string;
+    const concerns = answers.concerns as string[] || [];
+    const age = answers.age as string;
+    const budget = answers.budget as string;
+
+    // Cilt tipine göre öneriler
+    const recommendations = {
+      dry: {
+        priority: 'Nemlendirme',
+        products: ['Hyaluronik Asit Serum', 'Yoğun Nemlendirici Krem', 'Yumuşak Temizleyici'],
+        routine: 'Sabah ve akşam nazik temizlik, bol nemlendirme'
+      },
+      oily: {
+        priority: 'Yağ Kontrolü',
+        products: ['Niacinamide Serum', 'Salisilik Asit Temizleyici', 'Hafif Nemlendirici'],
+        routine: 'Günde 2 kez temizlik, yağ kontrolü ürünleri'
+      },
+      combination: {
+        priority: 'Denge Sağlama',
+        products: ['Dengeleyici Tonik', 'Hafif Serum', 'Bölgesel Bakım'],
+        routine: 'T bölge için yağ kontrolü, yanaklar için nemlendirme'
+      },
+      sensitive: {
+        priority: 'Hassasiyet Azaltma',
+        products: ['Hassas Cilt Temizleyicisi', 'Aloe Vera Jeli', 'Mineral SPF'],
+        routine: 'Az ürün, nazik uygulama, güçlü aktiflerden kaçının'
+      },
+      normal: {
+        priority: 'Koruma',
+        products: ['C Vitamini Serum', 'Günlük Nemlendirici', 'Güneş Kremi'],
+        routine: 'Temel bakım rutini, korunmaya odaklanma'
+      }
+    };
+
+    const currentRec = recommendations[skinType as keyof typeof recommendations] || recommendations.normal;
+
+    return {
+      skinScore: Math.floor(Math.random() * 20) + 70, // 70-90 arası
+      hydrationLevel: Math.floor(Math.random() * 30) + (skinType === 'dry' ? 40 : 60),
+      skinAge: age === '18-25' ? Math.floor(Math.random() * 3) + 18 : 
+               age === '26-35' ? Math.floor(Math.random() * 5) + 25 :
+               Math.floor(Math.random() * 10) + 35,
+      concerns: concerns.length,
+      priority: currentRec.priority,
+      recommendations: currentRec.products,
+      routine: currentRec.routine
+    };
+  };
 
   const handleAnswer = (questionId: string, value: string) => {
     if (questions[currentStep].type === 'checkbox') {
@@ -239,9 +333,38 @@ const SkinAnalysisApp = () => {
   };
 
   const handleNext = () => {
-    if (currentStep < questions.length + 1) {
+    if (currentStep < questions.length + 2) {
       setCurrentStep(currentStep + 1);
     }
+  };
+
+  const handleAnalyze = async () => {
+    setIsAnalyzing(true);
+    setCurrentAnalysisStep(0);
+    setAnalysisProgress([0, 0, 0]);
+
+    // İlk progress bar - Cildinizi keşfediyoruz (5 saniye)
+    for (let i = 0; i <= 100; i += 2) {
+      await new Promise(resolve => setTimeout(resolve, 100));
+      setAnalysisProgress([i, 0, 0]);
+    }
+    setCurrentAnalysisStep(1);
+
+    // İkinci progress bar - Günlük bakımlarınızı güçlendiriyoruz (5 saniye)  
+    for (let i = 0; i <= 100; i += 2) {
+      await new Promise(resolve => setTimeout(resolve, 100));
+      setAnalysisProgress([100, i, 0]);
+    }
+    setCurrentAnalysisStep(2);
+
+    // Üçüncü progress bar - Size özel bakım ve tedavi planları hazırlıyoruz (5 saniye)
+    for (let i = 0; i <= 100; i += 2) {
+      await new Promise(resolve => setTimeout(resolve, 100));
+      setAnalysisProgress([100, 100, i]);
+    }
+
+    setIsAnalyzing(false);
+    setCurrentStep(currentStep + 1);
   };
 
   const handlePhotoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -262,7 +385,8 @@ const SkinAnalysisApp = () => {
     return currentAnswer && (Array.isArray(currentAnswer) ? currentAnswer.length > 0 : true);
   };
 
-  if (currentStep === questions.length + 2) {
+  // Premium ekranı
+  if (currentStep === questions.length + 3) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-100 p-4">
         <div className="max-w-md mx-auto bg-white rounded-3xl shadow-2xl p-8 text-center">
@@ -290,14 +414,6 @@ const SkinAnalysisApp = () => {
               </div>
               <p className="text-sm text-gray-600">Size özel ürün önerileri ve rutin</p>
             </div>
-
-            <div className="bg-gradient-to-r from-pink-50 to-purple-50 p-4 rounded-xl">
-              <div className="flex items-center mb-2">
-                <Check className="w-5 h-5 text-green-500 mr-2" />
-                <span className="font-semibold">Uzman Desteği</span>
-              </div>
-              <p className="text-sm text-gray-600">7/24 dermatolog danışmanlığı</p>
-            </div>
           </div>
 
           <div className="mb-6">
@@ -308,18 +424,170 @@ const SkinAnalysisApp = () => {
           </div>
 
           <button className="w-full bg-gradient-to-r from-pink-500 to-purple-600 text-white py-4 px-6 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200 mb-4">
-            Premium&apos;a Başla
+            Premium'a Başla
           </button>
 
-          <p className="text-xs text-gray-500">
-            İstediğiniz zaman iptal edebilirsiniz. İlk 7 gün ücretsiz deneme.
-          </p>
+          <button 
+            onClick={() => setCurrentStep(0)}
+            className="text-gray-500 text-sm hover:text-gray-700 transition-colors"
+          >
+            Baştan Başla
+          </button>
         </div>
       </div>
     );
   }
 
+  // Analiz sonuçları ekranı
+  if (currentStep === questions.length + 2) {
+    const results = generateAnalysisResults();
+    
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-100 p-4">
+        <div className="max-w-md mx-auto bg-white rounded-3xl shadow-2xl p-8">
+          <div className="text-center mb-8">
+            <div className="w-16 h-16 bg-gradient-to-r from-green-400 to-blue-500 rounded-full mx-auto mb-4 flex items-center justify-center">
+              <Award className="w-8 h-8 text-white" />
+            </div>
+            <h2 className="text-2xl font-bold text-gray-800 mb-2">Analiz Tamamlandı!</h2>
+            <p className="text-gray-600">İşte cilt analizi sonuçlarınız</p>
+          </div>
+
+          <div className="space-y-4 mb-8">
+            {/* Cilt Skoru */}
+            <div className="bg-gradient-to-r from-green-50 to-blue-50 p-4 rounded-xl">
+              <div className="flex items-center justify-between mb-2">
+                <span className="font-semibold flex items-center">
+                  <Target className="w-5 h-5 mr-2 text-green-500" />
+                  Cilt Skoru
+                </span>
+                <span className="text-2xl font-bold text-green-600">{results.skinScore}/100</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div 
+                  className="bg-gradient-to-r from-green-400 to-blue-500 h-2 rounded-full"
+                  style={{ width: `${results.skinScore}%` }}
+                ></div>
+              </div>
+            </div>
+
+            {/* Nem Seviyesi */}
+            <div className="bg-gradient-to-r from-blue-50 to-cyan-50 p-4 rounded-xl">
+              <div className="flex items-center justify-between mb-2">
+                <span className="font-semibold flex items-center">
+                  <Zap className="w-5 h-5 mr-2 text-blue-500" />
+                  Nem Seviyesi
+                </span>
+                <span className="text-lg font-bold text-blue-600">%{results.hydrationLevel}</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div 
+                  className="bg-gradient-to-r from-blue-400 to-cyan-500 h-2 rounded-full"
+                  style={{ width: `${results.hydrationLevel}%` }}
+                ></div>
+              </div>
+            </div>
+
+            {/* Öncelik Alanı */}
+            <div className="bg-gradient-to-r from-purple-50 to-pink-50 p-4 rounded-xl">
+              <div className="flex items-center mb-2">
+                <Heart className="w-5 h-5 mr-2 text-purple-500" />
+                <span className="font-semibold">Öncelik Alanı</span>
+              </div>
+              <p className="text-purple-700 font-medium">{results.priority}</p>
+            </div>
+
+            {/* Önerilen Ürünler */}
+            <div className="bg-gradient-to-r from-orange-50 to-red-50 p-4 rounded-xl">
+              <h3 className="font-semibold text-orange-800 mb-2">🛍️ Önerilen Ürünler:</h3>
+              <ul className="space-y-1">
+                {results.recommendations.map((product, index) => (
+                  <li key={index} className="text-sm text-orange-700">
+                    • {product}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Bakım Rutini */}
+            <div className="bg-gradient-to-r from-teal-50 to-emerald-50 p-4 rounded-xl">
+              <h3 className="font-semibold text-teal-800 mb-2">📅 Önerilen Rutin:</h3>
+              <p className="text-sm text-teal-700">{results.routine}</p>
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <button
+              onClick={handleNext}
+              className="w-full bg-gradient-to-r from-pink-500 to-purple-600 text-white py-4 px-6 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200"
+            >
+              Premium Rapor Al
+            </button>
+            
+            <button
+              onClick={() => setCurrentStep(0)}
+              className="w-full bg-gray-100 text-gray-600 py-3 px-6 rounded-xl font-medium hover:bg-gray-200 transition-colors"
+            >
+              Yeni Analiz Yap
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Fotoğraf yükleme ekranı
   if (currentStep === questions.length + 1) {
+    if (isAnalyzing) {
+      const analysisSteps = [
+        { text: 'Cildinizi keşfediyoruz', icon: '🔍', color: 'from-pink-400 to-purple-500' },
+        { text: 'Günlük bakımlarınızı güçlendiriyoruz', icon: '💪', color: 'from-blue-400 to-cyan-500' },
+        { text: 'Size özel bakım ve tedavi planları hazırlıyoruz', icon: '✨', color: 'from-green-400 to-emerald-500' }
+      ];
+
+      return (
+        <div className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-100 p-4 flex items-center justify-center">
+          <div className="max-w-md mx-auto bg-white rounded-3xl shadow-2xl p-8 text-center">
+            <div className="w-20 h-20 bg-gradient-to-r from-pink-400 to-purple-500 rounded-full mx-auto mb-6 flex items-center justify-center animate-pulse">
+              <Camera className="w-10 h-10 text-white" />
+            </div>
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">Analiz Ediliyor...</h2>
+            <p className="text-gray-600 mb-8">AI modelimiz fotoğrafınızı inceliyor</p>
+            
+            <div className="space-y-6 mb-6">
+              {analysisSteps.map((step, index) => (
+                <div key={index} className="text-left">
+                  <div className="flex items-center mb-2">
+                    <span className="text-2xl mr-3">{step.icon}</span>
+                    <span className={`font-semibold text-sm ${
+                      currentAnalysisStep >= index ? 'text-gray-800' : 'text-gray-400'
+                    }`}>
+                      {step.text}
+                    </span>
+                    {currentAnalysisStep > index && (
+                      <Check className="w-5 h-5 text-green-500 ml-auto" />
+                    )}
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-3">
+                    <div 
+                      className={`bg-gradient-to-r ${step.color} h-3 rounded-full transition-all duration-300 ${
+                        currentAnalysisStep === index ? 'animate-pulse' : ''
+                      }`}
+                      style={{ width: `${analysisProgress[index]}%` }}
+                    ></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            
+            <div className="text-sm text-gray-500">
+              Bu işlem yaklaşık 15 saniye sürecek...
+            </div>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-100 p-4">
         <div className="max-w-md mx-auto bg-white rounded-3xl shadow-2xl p-8">
@@ -334,16 +602,14 @@ const SkinAnalysisApp = () => {
           <div className="mb-8">
             {uploadedPhoto ? (
               <div className="relative">
-                <Image
+                <img
                   src={uploadedPhoto}
                   alt="Yüklenen fotoğraf"
-                  width={400}
-                  height={256}
                   className="w-full h-64 object-cover rounded-2xl shadow-lg"
                 />
                 <button
                   onClick={() => setUploadedPhoto(null)}
-                  className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center"
+                  className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-600 transition-colors"
                 >
                   ×
                 </button>
@@ -376,7 +642,7 @@ const SkinAnalysisApp = () => {
           </div>
 
           <button
-            onClick={handleNext}
+            onClick={handleAnalyze}
             disabled={!uploadedPhoto}
             className={`w-full py-4 px-6 rounded-xl font-bold text-lg shadow-lg transform transition-all duration-200 ${
               uploadedPhoto
@@ -391,6 +657,7 @@ const SkinAnalysisApp = () => {
     );
   }
 
+  // Özet ekranı
   if (currentStep === questions.length) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-100 p-4">
@@ -400,7 +667,7 @@ const SkinAnalysisApp = () => {
               <span className="text-2xl">🎉</span>
             </div>
             <h2 className="text-2xl font-bold text-gray-800 mb-2">Harika!</h2>
-            <p className="text-gray-600">Analiziniz hazır. Son adım olarak cilt fotoğrafınızı yükleyin.</p>
+            <p className="text-gray-600">Bilgileriniz kaydedildi. Son adım olarak cilt fotoğrafınızı yükleyin.</p>
           </div>
 
           <div className="space-y-4 mb-8">
@@ -427,6 +694,7 @@ const SkinAnalysisApp = () => {
     );
   }
 
+  // Anket soruları
   const currentQuestion = questions[currentStep];
 
   return (
