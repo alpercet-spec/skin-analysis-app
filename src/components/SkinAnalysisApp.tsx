@@ -1,14 +1,15 @@
-interface Answers {
-  [key: string]: string | string[];
-}
-const [answers, setAnswers] = useState<Answers>({});
+import React, { useState } from 'react';
 import { Camera, ChevronRight, Star, Check, Upload } from 'lucide-react';
 import Image from 'next/image';
 
+interface Answers {
+  [key: string]: string | string[];
+}
+
 const SkinAnalysisApp = () => {
   const [currentStep, setCurrentStep] = useState(0);
-  const [answers, setAnswers] = useState({});
-  const [uploadedPhoto, setUploadedPhoto] = useState(null);
+  const [answers, setAnswers] = useState<Answers>({});
+  const [uploadedPhoto, setUploadedPhoto] = useState<string | null>(null);
 
   const questions = [
     {
@@ -257,7 +258,7 @@ const SkinAnalysisApp = () => {
   const canProceed = () => {
     if (currentStep >= questions.length) return true;
     const currentQuestion = questions[currentStep];
-    const currentAnswer = (answers as any)[currentQuestion.id];
+    const currentAnswer = answers[currentQuestion.id];
     return currentAnswer && (Array.isArray(currentAnswer) ? currentAnswer.length > 0 : true);
   };
 
@@ -406,10 +407,10 @@ const SkinAnalysisApp = () => {
             <div className="bg-green-50 p-4 rounded-xl">
               <h3 className="font-semibold text-green-800 mb-2">✅ Cevaplarınız Kaydedildi</h3>
               <div className="text-sm text-green-700">
-                <p>• Yaş: {(answers as any).age || 'Belirtilmedi'}</p>
-                {(answers as any).gender && <p>• Cinsiyet: {questions[1].options.find(o => o.value === (answers as any).gender)?.label || 'Belirtilmedi'}</p>}
-                {(answers as any).skinType && <p>• Cilt Tipi: {questions[2].options.find(o => o.value === (answers as any).skinType)?.label.split(' - ')[0] || 'Belirtilmedi'}</p>}
-                <p>• Bütçe: {(answers as any).budget || 'Belirtilmedi'} TL</p>
+                <p>• Yaş: {answers.age as string || 'Belirtilmedi'}</p>
+                {answers.gender && <p>• Cinsiyet: {questions[1].options.find(o => o.value === answers.gender)?.label || 'Belirtilmedi'}</p>}
+                {answers.skinType && <p>• Cilt Tipi: {questions[2].options.find(o => o.value === answers.skinType)?.label.split(' - ')[0] || 'Belirtilmedi'}</p>}
+                <p>• Bütçe: {answers.budget as string || 'Belirtilmedi'} TL</p>
                 <p>• Toplam {Object.keys(answers).length} soru yanıtlandı</p>
               </div>
             </div>
@@ -452,8 +453,8 @@ const SkinAnalysisApp = () => {
           <div className="space-y-3">
             {currentQuestion.options.map((option) => {
               const isSelected = currentQuestion.type === 'checkbox' 
-                ? ((answers as any)[currentQuestion.id] || []).includes(option.value)
-                : (answers as any)[currentQuestion.id] === option.value;
+                ? ((answers[currentQuestion.id] as string[]) || []).includes(option.value)
+                : answers[currentQuestion.id] === option.value;
 
               return (
                 <button
