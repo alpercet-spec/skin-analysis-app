@@ -20,11 +20,11 @@ const SkinAnalysisApp = () => {
       title: 'Yaşınız?',
       type: 'radio',
       options: [
-        { value: '18-25', label: '📸 18-25' },
-        { value: '26-35', label: '📸 26-35' },
-        { value: '36-45', label: '📸 36-45' },
-        { value: '46-55', label: '📸 46-55' },
-        { value: '55+', label: '📸 55+' }
+        { value: '18-25', label: '18-25' },
+        { value: '26-35', label: '26-35' },
+        { value: '36-45', label: '36-45' },
+        { value: '46-55', label: '46-55' },
+        { value: '55+', label: '55+' }
       ]
     },
     {
@@ -70,12 +70,12 @@ const SkinAnalysisApp = () => {
       title: 'Cilt tonunuz hangisine daha yakın?',
       type: 'radio',
       options: [
-        { value: 'very_light', label: '🤍 Cildim çok açık, güneşte hemen kızarırım.' },
-        { value: 'light', label: '🏻 Cildim açık, bazen yanarım ama hafif de bronzlaşırım.' },
-        { value: 'medium_light', label: '🏼 Cildim buğday, önce biraz kızarırım sonra bronzlaşırım.' },
-        { value: 'medium', label: '🏽 Cildim esmer, kolayca bronzlaşırım, nadiren yanarım.' },
-        { value: 'medium_dark', label: '🏾 Cildim koyuya yakın, hemen bronzlaşırım, yanmam.' },
-        { value: 'dark', label: '🏿 Cildim koyu tenli, güneş yanığı hiç olmuyor.' }
+        { value: 'very_light', label: 'Cildim çok açık, güneşte hemen kızarırım.' },
+        { value: 'light', label: 'Cildim açık, bazen yanarım ama hafif de bronzlaşırım.' },
+        { value: 'medium_light', label: 'Cildim buğday, önce biraz kızarırım sonra bronzlaşırım.' },
+        { value: 'medium', label: 'Cildim esmer, kolayca bronzlaşırım, nadiren yanarım.' },
+        { value: 'medium_dark', label: 'Cildim koyuya yakın, hemen bronzlaşırım, yanmam.' },
+        { value: 'dark', label: 'Cildim koyu tenli, güneş yanığı hiç olmuyor.' }
       ]
     },
     {
@@ -172,7 +172,7 @@ const SkinAnalysisApp = () => {
       type: 'checkbox',
       options: [
         { value: 'botox', label: '💉 Botoks' },
-        { value: 'filler', label: '💊 Dolgu' },
+        { value: 'filler', label: '💉 Dolgu' },
         { value: 'mesotherapy', label: '🧬 Mezoterapiler' },
         { value: 'bbl', label: '🌟 BBL tedavileri' },
         { value: 'collagen', label: '🧪 Kolajen aşıları' },
