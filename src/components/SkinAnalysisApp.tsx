@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Camera, ChevronRight, Star, Check, Upload, Award, Target, Zap, Heart } from 'lucide-react';
-import Image from 'next/image';
 
 interface Answers {
   [key: string]: string | string[];
@@ -15,6 +14,7 @@ const SkinAnalysisApp = () => {
   const [analysisProgress, setAnalysisProgress] = useState([0, 0, 0]);
 
   const questions = [
+    // 1. Demografik Bilgiler
     {
       id: 'age',
       title: 'Yaşınız?',
@@ -36,16 +36,17 @@ const SkinAnalysisApp = () => {
         { value: 'male', label: '👨 Erkek' }
       ]
     },
+    // 2. Temel Cilt Bilgileri
     {
       id: 'skinType',
       title: 'Cilt tipinizi nasıl tanımlarsınız?',
       type: 'radio',
       options: [
-        { value: 'dry', label: '🜏️ Kuru — Cildim sık sık gergin hissediliyor, pul pul dökülme veya çatlama oluyor.' },
-        { value: 'oily', label: '💧 Yağlı — Cildim gün içinde parlaklaşıyor, özellikle alın, burun ve çenemde yağlanma oluyor, gözeneklerim belirgin.' },
-        { value: 'combination', label: '🌓 Karma — T bölgem (alın, burun, çene) yağlanıyor ama yanaklarım daha kuru veya normal.' },
+        { value: 'dry', label: '🏜️ Kuru — Cildim sık sık gergin hissediliyor, pul pul dökülme veya çatlama oluyor.' },
+        { value: 'oily', label: '💧 Yağlı — Cildim gün içinde parlaklasıyor, özellikle alın, burun ve çenemde yaģlanma oluyor, gözeneklerim belirgin.' },
+        { value: 'combination', label: '🌓 Karma — T bölgem (alın, burun, çene) yaģlanıyor ama yanaklarım daha kuru veya normal.' },
         { value: 'sensitive', label: '🌸 Hassas — Cildim kolayca kızarıyor, tahriş oluyor ya da ürünlere hızlı tepki veriyor.' },
-        { value: 'normal', label: '✨ Normal — Ne aşırı yağlanma ne de kuruluk hissediyorum, genel olarak dengeli ve rahat.' }
+        { value: 'normal', label: '✨ Normal — Ne aşırı yaģlanma ne de kuruluk hissediyorum, genel olarak dengeli ve rahat.' }
       ]
     },
     {
@@ -54,14 +55,14 @@ const SkinAnalysisApp = () => {
       type: 'checkbox',
       options: [
         { value: 'acne', label: '🔴 Sık sık sivilce ya da akne çıkıyor' },
-        { value: 'wrinkles', label: '⛛ Kırışıklıklarım var, yaşlanma belirtileri belirginleşiyor' },
+        { value: 'wrinkles', label: '⛛ Kırısıklıklarım var, yaşlanma belirtileri belirginleşiyor' },
         { value: 'dark_spots', label: '☀️ Cildimde lekeler ve renk düzensizlikleri var' },
-        { value: 'dryness', label: '🜏️ Cildim kuruyor, gerginlik hissediyorum' },
+        { value: 'dryness', label: '🏜️ Cildim kuruyor, gerginlik hissediyorum' },
         { value: 'pores', label: '🔍 Gözeneklerim geniş ve belirgin görünüyor' },
         { value: 'dullness', label: '😴 Cildim mat, yeterince canlı ve parlak değil' },
         { value: 'redness', label: '🌹 Cildim kolayca kızarıyor ve hassas' },
         { value: 'blackheads', label: '⚫ Siyah noktalarım var' },
-        { value: 'uneven_texture', label: '🏔️ Cilt dokum pürüzlü, yeterince pürüzsüz değil' },
+        { value: 'uneven_texture', label: '🔺️ Cilt dokum pürüzlü, yeterince pürüzsüz değil' },
         { value: 'under_eye', label: '👁️ Göz altlarımda morluk ve torbalanma var' }
       ]
     },
@@ -70,21 +71,22 @@ const SkinAnalysisApp = () => {
       title: 'Cilt tonunuz hangisine daha yakın?',
       type: 'radio',
       options: [
-        { value: 'very_light', label: 'Cildim çok açık, güneşte hemen kızarırım.' },
-        { value: 'light', label: 'Cildim açık, bazen yanarım ama hafif de bronzlaşırım.' },
-        { value: 'medium_light', label: 'Cildim buğday, önce biraz kızarırım sonra bronzlaşırım.' },
-        { value: 'medium', label: 'Cildim esmer, kolayca bronzlaşırım, nadiren yanarım.' },
-        { value: 'medium_dark', label: 'Cildim koyuya yakın, hemen bronzlaşırım, yanmam.' },
-        { value: 'dark', label: 'Cildim koyu tenli, güneş yanığı hiç olmuyor.' }
+        { value: 'very_light', label: '🤍 Cildim çok açık, güneşte hemen kızarırım.' },
+        { value: 'light', label: '🏻 Cildim açık, bazen yanarım ama hafif de bronzlaşırım.' },
+        { value: 'medium_light', label: '🏼Cildim buğday, önce biraz kızarırım sonra bronzlaşırım.' },
+        { value: 'medium', label: '🏽Cildim esmer, kolayca bronzlaşırım, nadiren yanarım.' },
+        { value: 'medium_dark', label: '🏾Cildim koyuya yakın, hemen bronzlaşırım, yanmam.' },
+        { value: 'dark', label: '🏿Cildim koyu tenli, güneş yanığı hiç olmuyor.' }
       ]
     },
+    // 3. Alerjiler ve Hassasiyetler
     {
       id: 'allergies',
       title: 'Bilinen cilt alerjileriniz var mı?',
       type: 'checkbox',
       options: [
         { value: 'fragrance', label: '🌺 Parfüm ve koku' },
-        { value: 'alcohol', label: '🷂 Alkol içeren ürünler' },
+        { value: 'alcohol', label: '🍷‚ Alkol içeren ürünler' },
         { value: 'salicylic_acid', label: '💊 Salisilik asit' },
         { value: 'retinol', label: '🧴 Retinol/Retinoid' },
         { value: 'aha_bha', label: '🧪 AHA/BHA asitler' },
@@ -94,6 +96,7 @@ const SkinAnalysisApp = () => {
         { value: 'none', label: '✅ Hiçbiri yok' }
       ]
     },
+    // 4. Mevcut Rutin ve Alışkanlıklar
     {
       id: 'routine',
       title: 'Şu anda hangi ürünleri düzenli olarak kullanıyorsunuz?',
@@ -125,6 +128,23 @@ const SkinAnalysisApp = () => {
         { value: 'never', label: '❌ Hiç yapmıyorum' }
       ]
     },
+    // 5. Güneş Korunması
+    {
+      id: 'sun_protection',
+      title: 'Güneş korunması alışkanlıklarınız nasıl?',
+      type: 'checkbox',
+      options: [
+        { value: 'daily_spf', label: '☀️ Her gün SPF kullanırım (kış-yaz fark etmez)' },
+        { value: 'summer_spf', label: '🏖️ Sadece yaz aylarında SPF kullanırım' },
+        { value: 'outdoor_spf', label: '🚶‍♀️ Sadece dışarı çıkacağım zaman SPF sürerim' },
+        { value: 'high_spf', label: '🛡️ SPF 50+ tercih ederim' },
+        { value: 'reapply_spf', label: '🔄 Gün içinde SPF yenilerim' },
+        { value: 'hat_sunglasses', label: '🕶️ Şapka ve güneş gözlüğü kullanırım' },
+        { value: 'avoid_sun', label: '🌂 Güneşin yoğun olduğu saatlerde gölgede kalırım' },
+        { value: 'no_protection', label: '❌ Güneş korunması yapmam' }
+      ]
+    },
+    // 6. Yaşam Tarzı Faktörleri
     {
       id: 'lifestyle',
       title: 'Yaşam tarzınız nasıl?',
@@ -141,90 +161,82 @@ const SkinAnalysisApp = () => {
         { value: 'little_water', label: '🚱 Çok az su içiyorum' }
       ]
     },
+    // 7. Beslenme ve Hidrasyon
     {
-      id: 'climate',
-      title: 'Yaşadığınız yerin iklimi nasıl?',
-      type: 'radio',
+      id: 'nutrition_hydration',
+      title: 'Beslenme ve su tüketimi alışkanlıklarınız nasıl?',
+      type: 'checkbox',
       options: [
-        { value: 'dry_hot', label: '🌵 Kuru ve sıcak' },
-        { value: 'humid_hot', label: '🏖️ Nemli ve sıcak' },
-        { value: 'moderate', label: '🌤️ Ilıman' },
-        { value: 'cold_dry', label: '❄️ Soğuk ve kuru' },
-        { value: 'cold_humid', label: '🌧️ Soğuk ve nemli' },
-        { value: 'varies', label: '🌈 Mevsimsel olarak değişiyor' }
+        { value: 'daily_water_2l', label: '💧 Günde 2+ litre su içerim' },
+        { value: 'daily_water_1l', label: '🥤 Günde 1-2 litre su içerim' },
+        { value: 'little_water', label: '🚱 Çok az su içerim (1 litreden az)' },
+        { value: 'fruits_vegetables', label: '🥬 Bol meyve ve sebze tüketirim' },
+        { value: 'omega3', label: '🐟 Omega-3 açısından zengin gıdalar yerim' },
+        { value: 'dairy_products', label: '🥛 Çok süt ürünü tüketirim' },
+        { value: 'sugar_processed', label: '🍰 Şekerli ve işlenmiş gıdalar tüketirim' },
+        { value: 'caffeine_excess', label: '☕ Çok kahve/kafein tüketirim' },
+        { value: 'alcohol_regular', label: '🍷 Düzenli alkol tüketirim' }
       ]
     },
+
     {
       id: 'makeup',
       title: 'Makyaj kullanım sıklığınız?',
       type: 'radio',
       options: [
         { value: 'daily', label: '💄 Her gün makyaj yapıyorum' },
-        { value: 'work_days', label: '👔 Sadece iş günleri' },
+        { value: 'work_days', label: '💼 Sadece iş günleri' },
         { value: 'special_occasions', label: '🎉 Özel günlerde' },
         { value: 'rarely', label: '🤷‍♀️ Çok nadir' },
         { value: 'never', label: '❌ Hiç kullanmıyorum' }
       ]
     },
+    // 8. YENİ SORULAR - Spesifik Problemler
     {
-      id: 'previous_treatments',
-      title: 'Daha önce hangi tedavileri denediniz?',
+      id: 'hair_problems',
+      title: 'En çok hangi saç sorunlarını yaşıyorsunuz?',
       type: 'checkbox',
       options: [
-        { value: 'botox', label: '💉 Botoks' },
-        { value: 'filler', label: '💉 Dolgu' },
-        { value: 'mesotherapy', label: '🧬 Mezoterapiler' },
-        { value: 'bbl', label: '🌟 BBL tedavileri' },
-        { value: 'collagen', label: '🧪 Kolajen aşıları' },
-        { value: 'radiofrequency', label: '📡 Radyofrekans tedavileri' },
-        { value: 'skin_laser', label: '⚡ Cilt lazer tedavileri' },
-        { value: 'professional_care', label: '✨ Profesyonel cilt bakımı' },
-        { value: 'chemical_peel', label: '🧪 Kimyasal peeling' },
-        { value: 'acne_medication', label: '💊 Akne ilaçları' },
-        { value: 'home_devices', label: '🏠 Evde kullanım cihazları' },
-        { value: 'prescription_creams', label: '📋 Reçeteli kremler' },
-        { value: 'none', label: '❌ Hiçbirini denemedim' }
+        { value: 'hair_loss', label: '💇‍♀️ Saç dökülmesi' },
+        { value: 'hair_dryness', label: '🌵 Saç kuruluğu ve matlık' },
+        { value: 'hair_breakage', label: '⚡ Saç kırılması' },
+        { value: 'hair_frizz', label: '🌪️ Elektriklenme ve kabarma' },
+        { value: 'dandruff', label: '🌑 Kepek veya saç derisi pullanması' },
+        { value: 'scalp_sensitivity', label: '🌸 Saç derisi kaşıntısı / hassasiyeti' },
+        { value: 'slow_growth', label: '🐢 Saçların yavaş uzaması' },
+        { value: 'color_damage', label: '🎨 Renk açma/boya sonrası yıpranma' },
+        { value: 'no_hair_problems', label: '✅ Hiçbiri' }
       ]
     },
     {
-      id: 'goals',
-      title: 'Cilt bakım ve tedavilerinden beklentiniz nedir?',
+      id: 'hand_neck_problems',
+      title: 'El, boyun ve dekolte bölgesinde en çok hangi sorunları yaşıyorsunuz?',
       type: 'checkbox',
       options: [
-        { value: 'clear_acne', label: '🎯 Akne/sivilcelerden kurtulmak' },
-        { value: 'anti_aging', label: '⏰ Yaşlanma karşıtı bakım' },
-        { value: 'even_tone', label: '🌟 Cilt tonunu eşitlemek' },
-        { value: 'hydration', label: '💧 Nem dengesini sağlamak' },
-        { value: 'reduce_pores', label: '🔍 Gözenekleri küçültmek' },
-        { value: 'brighten', label: '✨ Cilt parlaklığını artırmak' },
-        { value: 'sensitive_care', label: '🌸 Hassas cilt bakımı' },
-        { value: 'maintenance', label: '🛡️ Mevcut durumu korumak' },
-        { value: 'natural_glow', label: '🌅 Doğal bir parlaklık' }
+        { value: 'fine_lines', label: '⛛ İnce çizgiler ve kırışıklık' },
+        { value: 'sun_spots', label: '☀️ Güneş lekeleri / renk eşitsizliği' },
+        { value: 'dryness_elasticity', label: '🏜️ Kuruluk ve elastikiyet kaybı' },
+        { value: 'redness_sensitivity', label: '🌹 Kızarıklık ve hassasiyet' },
+        { value: 'thinning_veins', label: '⚪ Cilt incelmesi / damar görünürlüğü' },
+        { value: 'dullness_loss', label: '✨ Parlaklık kaybı / mat görünüm' },
+        { value: 'no_hand_neck_problems', label: '✅ Hiçbiri' }
       ]
     },
     {
-      id: 'timeline',
-      title: 'Ne kadar sürede sonuç görmek istiyorsunuz?',
-      type: 'radio',
+      id: 'lower_face_problems',
+      title: 'Alt yüz bölgesinde şikayetçi olduğunuz alanlar var mı?',
+      type: 'checkbox',
       options: [
-        { value: '2_weeks', label: '⚡ 2 hafta içinde' },
-        { value: '1_month', label: '📅 1 ay içinde' },
-        { value: '3_months', label: '🗓️ 3 ay içinde' },
-        { value: '6_months', label: '📆 6 ay içinde' },
-        { value: 'patient', label: '🧘‍♀️ Sabırlıyım, kalıcı sonuç istiyorum' }
+        { value: 'lip_lines', label: '👄 Dudak çevresi çizgileri' },
+        { value: 'marionette_lines', label: '😮 Ağız kenarında sarkma (marionette lines)' },
+        { value: 'jawline_unclear', label: '🧩 Çene hattında belirsizlik' },
+        { value: 'double_chin', label: '🐻 Gıdı bölgesi' },
+        { value: 'sagging', label: '🌪️ Genel sarkma / gevşeme' },
+        { value: 'asymmetry', label: '✨ Asimetrik görünüm' },
+        { value: 'no_lower_face_problems', label: '✅ Hiçbiri' }
       ]
     },
-    {
-      id: 'budget',
-      title: 'Evde cilt bakımı ürünleri için ayırdığınız aylık bütçe nedir?',
-      type: 'radio',
-      options: [
-        { value: '0-1000', label: '💰 0-1000 TL' },
-        { value: '1000-2500', label: '💰💰 1000-2500 TL' },
-        { value: '2500-5000', label: '💰💰💰 2500-5000 TL' },
-        { value: '5000+', label: '💰💰💰💰 5000+ TL' }
-      ]
-    },
+    // 9. Sağlık Durumu
     {
       id: 'health_factors',
       title: 'Cilt sağlığınızı etkileyebilecek faktörler var mı?',
@@ -254,14 +266,76 @@ const SkinAnalysisApp = () => {
     },
     {
       id: 'past_problems',
-      title: 'Geçmiş te cilt ile ilgili sorun yaşadınız mı?',
+      title: 'Geçmişte cilt ile ilgili sorun yaşadınız mı?',
       type: 'checkbox',
       options: [
         { value: 'chronic_irritation', label: '🔥 Kronik kaşıntı/kızarıklık problemi' },
-        { value: 'dryness_problem', label: '🜏️ Pullanma ve kuruluk sorunu' },
+        { value: 'dryness_problem', label: '🏜️ Pullanma ve kuruluk sorunu' },
         { value: 'recurring_sensitivity', label: '⚠️ Sürekli tekrarlayan cilt hassasiyeti' },
         { value: 'no_serious_problems', label: '✅ Ciddi bir cilt sorunu yaşamadım' },
         { value: 'prefer_not_answer_past', label: '🤐 Bu soruyu cevaplamak istemiyorum' }
+      ]
+    },
+    // 10. Önceki Tedaviler
+    {
+      id: 'previous_treatments',
+      title: 'Daha önce hangi tedavileri denediniz?',
+      type: 'checkbox',
+      options: [
+        { value: 'botox', label: '💉 Botoks' },
+        { value: 'filler', label: '💉 Dolgu' },
+        { value: 'mesotherapy', label: '🧬 Mezoterapiler' },
+        { value: 'bbl', label: '🌟 BBL tedavileri' },
+        { value: 'collagen', label: '🧪 Kolajen aşıları' },
+        { value: 'radiofrequency', label: '📡 Radyofrekans tedavileri' },
+        { value: 'skin_laser', label: '⚡ Cilt lazer tedavileri' },
+        { value: 'professional_care', label: '✨ Profesyonel cilt bakımı' },
+        { value: 'chemical_peel', label: '🧪 Kimyasal peeling' },
+        { value: 'acne_medication', label: '💊 Akne ilaçları' },
+        { value: 'home_devices', label: '🏠 Evde kullanım cihazları' },
+        { value: 'prescription_creams', label: '📋 Reçeteli kremler' },
+        { value: 'none', label: '❌ Hiçbirini denemedim' }
+      ]
+    },
+    // 11. Hedefler ve Beklentiler
+    {
+      id: 'goals',
+      title: 'Cilt bakım ve tedavilerinden beklentiniz nedir?',
+      type: 'checkbox',
+      options: [
+        { value: 'clear_acne', label: '🎯 Akne/sivilcelerden kurtulmak' },
+        { value: 'anti_aging', label: '⏰ Yaşlanma karşıtı bakım' },
+        { value: 'even_tone', label: '🌟 Cilt tonunu eşitlemek' },
+        { value: 'hydration', label: '💧 Nem dengesini sağlamak' },
+        { value: 'reduce_pores', label: '🔍 Gözenekleri küçültmek' },
+        { value: 'brighten', label: '✨ Cilt parlaklığını artırmak' },
+        { value: 'sensitive_care', label: '🌸 Hassas cilt bakımı' },
+        { value: 'maintenance', label: '🛡️ Mevcut durumu korumak' },
+        { value: 'natural_glow', label: '🌅 Doğal bir parlaklık' }
+      ]
+    },
+    {
+      id: 'timeline',
+      title: 'Ne kadar sürede sonuç görmek istiyorsunuz?',
+      type: 'radio',
+      options: [
+        { value: '2_weeks', label: '⚡ 2 hafta içinde' },
+        { value: '1_month', label: '📅 1 ay içinde' },
+        { value: '3_months', label: '🗓️ 3 ay içinde' },
+        { value: '6_months', label: '📆 6 ay içinde' },
+        { value: 'patient', label: '🧘‍♀️ Sabırlıyım, kalıcı sonuç istiyorum' }
+      ]
+    },
+    // 12. Bütçe
+    {
+      id: 'budget',
+      title: 'Evde cilt bakımı ürünleri için ayırdığınız aylık bütçe nedir?',
+      type: 'radio',
+      options: [
+        { value: '0-1000', label: '💰 0-1000 TL' },
+        { value: '1000-2500', label: '💰💰 1000-2500 TL' },
+        { value: '2500-5000', label: '💰💰💰 2500-5000 TL' },
+        { value: '5000+', label: '💰💰💰💰 5000+ TL' }
       ]
     }
   ];
@@ -318,9 +392,11 @@ const SkinAnalysisApp = () => {
   const handleAnswer = (questionId: string, value: string) => {
     if (questions[currentStep].type === 'checkbox') {
       const currentAnswers = (answers[questionId] as string[]) || [];
-      if (value === 'none') {
-        setAnswers({ ...answers, [questionId]: ['none'] });
-      } else if (currentAnswers.includes('none')) {
+      const noneValues = ['none', 'none_health', 'no_protection', 'no_hair_problems', 'no_hand_neck_problems', 'no_lower_face_problems'];
+      
+      if (noneValues.includes(value)) {
+        setAnswers({ ...answers, [questionId]: [value] });
+      } else if (currentAnswers.some(answer => noneValues.includes(answer))) {
         setAnswers({ ...answers, [questionId]: [value] });
       } else if (currentAnswers.includes(value)) {
         setAnswers({ ...answers, [questionId]: currentAnswers.filter((a: string) => a !== value) });
@@ -602,11 +678,9 @@ const SkinAnalysisApp = () => {
           <div className="mb-8">
             {uploadedPhoto ? (
               <div className="relative">
-                <Image
+                <img
                   src={uploadedPhoto}
                   alt="Yüklenen fotoğraf"
-                  width={500}
-                  height={256}
                   className="w-full h-64 object-cover rounded-2xl shadow-lg"
                 />
                 <button
